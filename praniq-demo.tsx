@@ -80,7 +80,7 @@ const PRANIQ = () => {
   ];
 
   useEffect(() => {
-    let interval: number | undefined;
+    let interval: ReturnType<typeof setInterval> | undefined;
     if (isTimerRunning && timeLeft > 0) {
       interval = setInterval(() => {
         setTimeLeft(prev => prev - 1);
@@ -89,7 +89,9 @@ const PRANIQ = () => {
       setIsTimerRunning(false);
       setStep('completion');
     }
-    return () => clearInterval(interval);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [isTimerRunning, timeLeft]);
 
   const formatTime = (seconds: number) => {
